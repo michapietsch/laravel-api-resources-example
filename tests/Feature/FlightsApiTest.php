@@ -61,4 +61,26 @@ class FlightsApiTest extends TestCase
                 'code' => $flight->code,
             ]);
     }
+
+    /** @test */
+    public function by_default_a_single_flight_does_not_include_passengers()
+    {
+        $passenger = factory(Passenger::class)->create();
+
+        $this->get('/api/flights/'.$passenger->flight_id)
+            ->assertJsonMissing([
+                'name' => $passenger->name,
+            ]);
+    }
+
+    /** @test */
+    public function a_single_flight_can_include_passengers()
+    {
+        $passenger = factory(Passenger::class)->create();
+
+        $this->get('/api/flights/'.$passenger->flight_id.'?include=passengers')
+            ->assertJsonFragment([
+                'name' => $passenger->name,
+            ]);
+    }
 }

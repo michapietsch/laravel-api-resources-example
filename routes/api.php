@@ -14,4 +14,4 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/flights', 'FlightController@index');
-Route::get('/flights/{flight}', 'FlightController@index');
+Route::get('/flights/{id}', 'FlightController@index');
