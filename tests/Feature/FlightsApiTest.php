@@ -99,4 +99,26 @@ class FlightsApiTest extends TestCase
                 'name' => $passenger->name,
             ]);
     }
+
+    /** @test */
+    public function for_authenticated_users_the_total_number_of_seats_available_in_a_flight_is_included()
+    {
+        $this->be(factory(User::class)->create());
+
+        $passenger = factory(Passenger::class)->create();
+        $flight = $passenger->flight;
+
+        $this->get('/api/flights/'.$flight->id)
+            ->assertJsonFragment(['total_seats' => $flight->total_seats]);
+    }
+
+    /** @test */
+    public function unauthenticated_users_can_not_view_the_total_number_of_seats_available_in_a_flight()
+    {
+        $passenger = factory(Passenger::class)->create();
+        $flight = $passenger->flight;
+
+        $this->get('/api/flights/'.$flight->id)
+            ->assertJsonMissing(['total_seats' => $flight->total_seats]);
+    }
 }

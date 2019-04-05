@@ -25,6 +25,6 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::resource('flight', 'App\Policies\FlightPolicy', [ 'view.total_seats' => 'viewTotalSeats', ]);
     }
 }
