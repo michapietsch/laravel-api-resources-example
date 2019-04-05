@@ -4,12 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Flight;
 use App\Http\Resources\FlightResource;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class FlightController extends Controller
 {
     public function index()
     {
-        return FlightResource::collection(Flight::all());
+        $flights = QueryBuilder::for(Flight::class)
+            ->allowedIncludes('passengers')
+            ->get();
+
+        return FlightResource::collection($flights);
     }
 
     public function show(Flight $flight)
