@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Passenger;
 
 class FlightResource extends JsonResource
 {
@@ -17,7 +18,10 @@ class FlightResource extends JsonResource
         return [
             'id' => $this->id,
             'code' => $this->code,
-            'passengers' => PassengerResource::collection($this->whenLoaded('passengers')),
+            'passengers' => $this->when(
+                optional(auth()->user())->can('browse', Passenger::class),
+                PassengerResource::collection($this->whenLoaded('passengers'))
+            ),
         ];
     }
 }
