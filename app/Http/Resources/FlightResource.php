@@ -20,7 +20,7 @@ class FlightResource extends JsonResource
             'id' => $this->id,
             'code' => $this->code,
             'total_seats' => $this->when(
-                optional(auth()->user())->can('flight.view.total_seats', Flight::class),
+                optional(auth()->user())->can('viewTotalSeats', Flight::class),
                 $this->total_seats
             ),
             'passengers' => $this->when(

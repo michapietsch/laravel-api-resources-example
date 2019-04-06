@@ -24,7 +24,5 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        Gate::resource('flight', 'App\Policies\FlightPolicy', [ 'view.total_seats' => 'viewTotalSeats', ]);
     }
 }
